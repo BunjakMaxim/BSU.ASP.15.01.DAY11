@@ -12,24 +12,30 @@ namespace ConsoleBookService
     {
         static void Main(string[] args)
         {
-            BookListService books = new BookListService(new BinaryReaderRepository("BooksList.dat"));
+            BookListService booksBinaryReader = new BookListService(new BinaryReaderRepository("BooksList.dat"));
 
-            books.AddBook(new Book() { Author = "Николай Гоголь", Title = "Вечера на хуторе близ Диканьки", Year = 1832, Genre = "Проза" });
-            foreach (Book b in books)
+            Console.WriteLine("BinaryReaderRepository:");
+            foreach (Book b in booksBinaryReader)
                 Console.WriteLine(b);
+            Console.WriteLine();
 
-            Console.WriteLine(); Console.WriteLine();
-
-            books.RemoveBook(new Book() { Author = "Николай Гоголь", Title = "Вечера на хуторе близ Диканьки", Year = 1832, Genre = "Проза" });
-            foreach (Book b in books)
+            Console.WriteLine("BinaryReaderRepository sort:");
+            booksBinaryReader.SortBooksByTag(new ComparableBook());
+            foreach (Book b in booksBinaryReader)
                 Console.WriteLine(b);
+            Console.WriteLine();
 
-            books.SortBooksByTag(new ComparableBook());
-            foreach (Book b in books)
+            Console.WriteLine("XmlRepository:");
+            BookListService booksXml = new BookListService(new XmlRepository("BooksList.xml"));
+            foreach (Book b in booksXml)
                 Console.WriteLine(b);
+            Console.WriteLine();
 
-            books = new BookListService(new XmlRepository("BooksList.xml"));
-
+            Console.WriteLine("Linq2XmlRepository:");
+            BookListService booksLinq2Xml = new BookListService(new Linq2XmlRepository("BooksList.xml"));
+            foreach (Book b in booksLinq2Xml)
+                Console.WriteLine(b);
+            
             Console.ReadKey();
         }
     }

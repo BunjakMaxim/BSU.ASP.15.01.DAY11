@@ -68,6 +68,19 @@ namespace BooksLibrary
             }
         }
 
+        public void ReadeRepository()
+        {
+            arrayBooks = new Book[10];
+            Count = 0;
+            foreach (var book in repository.Read())
+                AddBook(book);
+        }
+
+        public void SaveRepository()
+        {
+            repository.Seve(this);
+        }
+
         public IEnumerator<Book> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
@@ -86,19 +99,6 @@ namespace BooksLibrary
                     return i;
 
             return -1;
-        }
-
-        private void ReadeRepository()
-        {
-            arrayBooks = new Book[10];
-            Count = 0;
-            foreach (var book in repository.Read())
-                AddBook(book);
-        }
-
-        public void SaveRepository() //-----------------------------------------
-        {
-            repository.Seve(this);
         }
     }
 }

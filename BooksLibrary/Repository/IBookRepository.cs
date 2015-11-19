@@ -9,6 +9,6 @@ namespace BooksLibrary.Repository
     public interface IBookRepository
     {
         IEnumerable<Book> Read();
-        void Seve(IEnumerable<Book> array);
+        void Seve(IEnumerable<Book> iter);
     }
 }

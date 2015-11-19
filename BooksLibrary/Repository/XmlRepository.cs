@@ -19,35 +19,31 @@ namespace BooksLibrary.Repository
         public IEnumerable<Book> Read()
         {
             string author = "", title = "", genre = "";
-
-            XmlReader reader = XmlReader.Create(path);
-
-            while (reader.Read())
+            using (XmlReader reader = XmlReader.Create(path))
             {
-                if (reader.IsStartElement())
-                {
-                    switch (reader.Name)
-                    {
-                        case "autor":
-                            author = reader.ReadString();
-                            break;
-                        case "title":
-                            title = reader.ReadString();
-                            break;
-                        case "genre":
-                            genre = reader.ReadString();
-                            break;
-                        case  "year":
-                            yield return new Book() { Author = author, Title = title, Genre = genre, Year = int.Parse(reader.ReadString())};
-                            break;
-                    }
-                }
+                while (reader.Read())
+                    if (reader.IsStartElement())
+                        switch (reader.Name)
+                        {
+                            case "author":
+                                author = reader.ReadString();
+                                break;
+                            case "title":
+                                title = reader.ReadString();
+                                break;
+                            case "genre":
+                                genre = reader.ReadString();
+                                break;
+                            case "year":
+                                yield return new Book() { Author = author, Title = title, Genre = genre, Year = int.Parse(reader.ReadString()) };
+                                break;
+                        }
             }
         }
 
-        public void Seve(IEnumerable<Book> array)
+        public void Seve(IEnumerable<Book> iter)
         {
-            using (var xml = new XmlTextWriter(path, Encoding.UTF8))
+            using (XmlTextWriter xml = new XmlTextWriter(path, Encoding.UTF8))
             {
                 xml.Formatting = Formatting.Indented;
                 xml.Indentation = 2;
@@ -55,10 +51,10 @@ namespace BooksLibrary.Repository
                 xml.WriteStartDocument();
                 xml.WriteStartElement("library");
 
-                foreach (var b in array)
+                foreach (var b in iter)
                 {
                     xml.WriteStartElement("book");
-                    xml.WriteElementString("autor", b.Author);
+                    xml.WriteElementString("author", b.Author);
                     xml.WriteElementString("title", b.Title);
                     xml.WriteElementString("genre", b.Genre);
                     xml.WriteElementString("year", b.Year.ToString());

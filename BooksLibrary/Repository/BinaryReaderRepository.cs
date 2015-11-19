@@ -33,13 +33,13 @@ namespace BooksLibrary.Repository
             }
         }
 
-        public void Seve(IEnumerable<Book> array)
+        public void Seve(IEnumerable<Book> iter)
         {
             using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
             {
-                writer.Write(array.Count());
+                writer.Write(iter.Count());
 
-                foreach (Book b in array)
+                foreach (Book b in iter)
                 {
                     writer.Write(b.Author);
                     writer.Write(b.Title);
